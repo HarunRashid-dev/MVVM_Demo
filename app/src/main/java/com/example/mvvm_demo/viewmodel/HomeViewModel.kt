@@ -15,10 +15,15 @@ class HomeViewModel : ViewModel() {
     private val _userData = MutableLiveData<UserData>()
     val userData : LiveData<UserData> = _userData
 
+    private val _isLoading = MutableLiveData<UserData>(false)
+    val isLoading : LiveData<UserData> = _isLoading
+
     fun getUserData(){
+        _isLoading.postValue(true)
         viewModelScope.launch {
             val userResult = userRepository.fetchUserData()
             _userData.postValue(userResult)
+            _isLoading.postValue(false)
         }
     }
 
